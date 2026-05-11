@@ -7,9 +7,61 @@ def main ():
         choice = input("Enter choice: ")
         if (choice == "1"):
             name = input("Enter speaker name : ")
+            print(f"session details for : {name}")
+            print("--------------------------------")
             speakers = mysqldbaccess.find_speaker(name)
-            for speaker in speakers:
-                print(speaker["speakerName"],"|",speaker["sessionTitle"],"|",speaker["roomName"])
+            if speakers:
+
+                for speaker in speakers:
+                    print(speaker["speakerName"],"|",speaker["sessionTitle"],"|",speaker["roomName"])
+            else:
+                print("No speakers found of that name")
+            print("--------------------------------")
+            display_menu()
+        elif (choice == "2"):
+
+            while True:
+            
+                compid = input("Enter company ID: ")
+        
+                if compid.isdigit() and int(compid) > 0:
+                
+                    compid = int(compid)
+        
+                    company = mysqldbaccess.company_exists(compid)
+        
+                    if not company:
+                        print("Company does not exist.")
+                        continue
+        
+                    company_data = mysqldbaccess.find_comp(compid)
+        
+                    if not company_data:
+                        print("Company exists but has no attendees registered for sessions.")
+                        continue
+        
+                    print("")
+                    print("Company:", company_data[0]["companyName"])
+                    print("--------------------------------")
+        
+                    for attendee in company_data:
+                    
+                        print(
+                            attendee["attendeeName"], "|",
+                            attendee["attendeeDOB"], "|",
+                            attendee["sessionTitle"], "|",
+                            attendee["speakerName"], "|",
+                            attendee["sessionDate"], "|",
+                            attendee["roomName"]
+                        )
+        
+                    print("--------------------------------")
+                    display_menu()
+        
+                    break
+        
+                else:
+                    print("Invalid company ID. Please enter a positive integer.")
         elif (choice == "x"):
             break
     
@@ -17,7 +69,7 @@ def display_menu():
     print("Conference Management")
     print("---------------------")
     print("===")
-    print("1 - View Spearker & Sessions")
+    print("1 - View Speaker & Sessions")
     print("2 - View Attendees by Company")
     print("3 - Add New Attendee")
     print("5 - Add Attendee Connection")
