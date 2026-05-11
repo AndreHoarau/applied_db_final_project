@@ -1,9 +1,16 @@
 # Author Andre Hoarau
+import mysqldbaccess
+
 def main ():
-    display_menu
+    display_menu()
     while True:
         choice = input("Enter choice: ")
-        if (choice == "x"):
+        if (choice == "1"):
+            name = input("Enter speaker name : ")
+            speakers = mysqldbaccess.find_speaker(name)
+            for speaker in speakers:
+                print(speaker["speakerName"],"|",speaker["sessionTitle"],"|",speaker["roomName"])
+        elif (choice == "x"):
             break
     
 def display_menu():
@@ -16,3 +23,6 @@ def display_menu():
     print("5 - Add Attendee Connection")
     print("6 - View Rooms")
     print("x - Exit Application")
+
+if __name__ =="__main__":
+    main()
