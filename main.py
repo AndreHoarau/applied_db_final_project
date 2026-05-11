@@ -23,27 +23,27 @@ def main ():
             while True:
             
                 compid = input("Enter company ID: ")
-        
+
                 if compid.isdigit() and int(compid) > 0:
                 
                     compid = int(compid)
-        
+
                     company = mysqldbaccess.company_exists(compid)
-        
+
                     if not company:
                         print("Company does not exist.")
                         continue
-        
+
                     company_data = mysqldbaccess.find_comp(compid)
-        
+
                     if not company_data:
                         print("Company exists but has no attendees registered for sessions.")
                         continue
-        
+
                     print("")
                     print("Company:", company_data[0]["companyName"])
                     print("--------------------------------")
-        
+
                     for attendee in company_data:
                     
                         print(
@@ -54,14 +54,24 @@ def main ():
                             attendee["sessionDate"], "|",
                             attendee["roomName"]
                         )
-        
+
                     print("--------------------------------")
                     display_menu()
-        
+
                     break
-        
+
                 else:
                     print("Invalid company ID. Please enter a positive integer.")
+        elif (choice =="3"):
+                id = input("Attendee ID: ")
+                name = input("Name: ")
+                dob = input("DOB: ")
+                gender = input("Gender: ")
+                id_att_comp = input("Company ID: ")
+                mysqldbaccess.add_attendee(id,name,dob,gender,id_att_comp)
+                print("--------------------------------")
+                display_menu()
+
         elif (choice == "x"):
             break
     
@@ -72,6 +82,7 @@ def display_menu():
     print("1 - View Speaker & Sessions")
     print("2 - View Attendees by Company")
     print("3 - Add New Attendee")
+    print("4 - View Connected Attendees")
     print("5 - Add Attendee Connection")
     print("6 - View Rooms")
     print("x - Exit Application")

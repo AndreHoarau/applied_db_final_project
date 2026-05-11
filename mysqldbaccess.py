@@ -93,3 +93,68 @@ def company_exists(compid):
     db.close()
 
     return result
+
+def add_attendee(id, name, dob, gender, id_att_comp):
+
+    db = pymysql.connect(
+        host='localhost',
+        user='root',
+        password='root',
+        db='appdbproj',
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
+    try:
+
+            cursor = db.cursor()
+
+            # -----------------------------
+            # 1. Check if Attendee ID exists
+            # -----------------------------
+            cursor.execute(
+                "SELECT attendeeID FROM attendee WHERE attendeeID = %s",
+                (id,)
+            )
+
+            if cursor.fetchone():
+                print("Error: Attendee ID already exists")
+                return
+
+            # -----------------------------
+            # 2. Validate gender
+            # -----------------------------
+            if gender not in ["Male", "Female"]:
+                print("Error: Gender must be Male/Female")
+                return
+
+            # -----------------------------
+            # 3. Check Company exists
+            # -----------------------------
+            cursor.execute(
+                "SELECT companyID FROM company WHERE companyID = %s",
+                (id_att_comp,)
+            )
+
+            if not cursor.fetchone():
+                print(f"Company ID {id_att_comp} does not exist")
+                return
+
+            # -----------------------------
+            # 4. Insert attendee
+            # -----------------------------
+            sql = """
+            INSERT INTO attendee 
+            (attendeeID, attendeeName, attendeeDOB, attendeeGender, attendeeCompanyID)
+            VALUES (%s, %s, %s, %s, %s)
+            """
+
+            cursor.execute(sql, (id, name, dob, gender, id_att_comp))
+            db.commit()
+
+            print("Attendee successfully added")
+
+    except pymysql.MySQLError as e:
+        print("Database error:", e)
+
+    finally:
+        db.close()
