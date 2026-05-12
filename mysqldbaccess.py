@@ -1,3 +1,4 @@
+# Author Andre Hoarau
 import pymysql
 
 def find_speaker(name):
