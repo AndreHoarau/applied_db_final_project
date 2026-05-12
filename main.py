@@ -1,6 +1,6 @@
 # Author Andre Hoarau
 import mysqldbaccess
-
+import myneo4jaccess
 def main ():
     display_menu()
     while True:
@@ -69,6 +69,29 @@ def main ():
                 gender = input("Gender: ")
                 id_att_comp = input("Company ID: ")
                 mysqldbaccess.add_attendee(id,name,dob,gender,id_att_comp)
+                print("--------------------------------")
+                display_menu()
+        elif (choice =="4"):
+                id_input = int(input("Attendee ID: "))
+                target_name = mysqldbaccess.get_name_by_id(id_input)
+                if not target_name:
+                    print(f"No attendee found with ID {id_input}")
+                else:
+                    print(f"\nAttendee: {target_name} (ID: {id_input})")
+                    print("Connected to:")
+                    print("--------------------------------")
+                
+                # 2. Use Neo4j to get the list of connected IDs
+                connected_ids = myneo4jaccess.get_connections_list(id_input)
+                
+                if not connected_ids:
+                    print("No connections found for this attendee.")
+                else:
+                    # 3. For every ID Neo4j found, ask MySQL for the Name
+                    for c_id in connected_ids:
+                        c_name = mysqldbaccess.get_name_by_id(c_id)
+                        print(f"{c_id} | {c_name}")
+            
                 print("--------------------------------")
                 display_menu()
 

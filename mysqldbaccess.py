@@ -158,3 +158,15 @@ def add_attendee(id, name, dob, gender, id_att_comp):
 
     finally:
         db.close()
+
+def get_name_by_id(att_id):
+    db = pymysql.connect(
+        host='localhost', user='root', password='root', db='appdbproj',
+        cursorclass=pymysql.cursors.DictCursor
+    )
+    cursor = db.cursor()
+    sql = "SELECT attendeeName FROM attendee WHERE attendeeID = %s"
+    cursor.execute(sql, (att_id,))
+    result = cursor.fetchone()
+    db.close()
+    return result['attendeeName'] if result else None
