@@ -14,7 +14,8 @@ The system integrates:
 *   **Relational Database (MySQL):** Handles structured data such as Attendees, Rooms, Sessions, and Companies.
 *   **Graph Database (Neo4j):** Manages the social graph, allowing attendees to form professional connections and discover networking paths.
 ### Project Structure
-```\---applied_db_final_project
+```
+\---applied_db_final_project
     |   .gitignore
     |   appdbproj.sql
     |   GitLink.txt
