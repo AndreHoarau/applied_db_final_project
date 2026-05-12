@@ -15,16 +15,16 @@ The system integrates:
 *   **Graph Database (Neo4j):** Manages the social graph, allowing attendees to form professional connections and discover networking paths.
 ### Project Structure
 ```
-\---applied_db_final_project
-    |   .gitignore
-    |   appdbproj.sql
-    |   GitLink.txt
-    |   main.py
-    |   myneo4jaccess.py
-    |   mysqldbaccess.py
-    |   README.md
-    |   requirements.txt
-    |   setup_neo4j.cypher
+applied_db_final_project/
+├── appdbproj.sql         # MySQL Database Dump
+├── main.py               # Main Application Logic & CLI
+├── myneo4jaccess.py      # Neo4j Data Access Object (DAO)
+├── mysqldbaccess.py      # MySQL Data Access Object (DAO)
+├── requirements.txt      # Python Dependencies
+├── README.md             # Project Documentation
+├── setup_neo4j.cypher    # Neo4j Initialization Script
+├── GitLink.txt           # Link to Version Control
+└── .gitignore            # Git exclusion rules
 ```
 ---
 
