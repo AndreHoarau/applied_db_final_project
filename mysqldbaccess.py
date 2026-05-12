@@ -109,9 +109,6 @@ def add_attendee(id, name, dob, gender, id_att_comp):
 
             cursor = db.cursor()
 
-            # -----------------------------
-            # 1. Check if Attendee ID exists
-            # -----------------------------
             cursor.execute(
                 "SELECT attendeeID FROM attendee WHERE attendeeID = %s",
                 (id,)
@@ -121,16 +118,12 @@ def add_attendee(id, name, dob, gender, id_att_comp):
                 print("Error: Attendee ID already exists")
                 return
 
-            # -----------------------------
-            # 2. Validate gender
-            # -----------------------------
+
             if gender not in ["Male", "Female"]:
                 print("Error: Gender must be Male/Female")
                 return
 
-            # -----------------------------
-            # 3. Check Company exists
-            # -----------------------------
+
             cursor.execute(
                 "SELECT companyID FROM company WHERE companyID = %s",
                 (id_att_comp,)
@@ -140,9 +133,7 @@ def add_attendee(id, name, dob, gender, id_att_comp):
                 print(f"Company ID {id_att_comp} does not exist")
                 return
 
-            # -----------------------------
-            # 4. Insert attendee
-            # -----------------------------
+
             sql = """
             INSERT INTO attendee 
             (attendeeID, attendeeName, attendeeDOB, attendeeGender, attendeeCompanyID)

@@ -85,13 +85,13 @@ def main ():
                     print("Connected to:")
                     print("--------------------------------")
                 
-                # 2. Use Neo4j to get the list of connected IDs
+
                 connected_ids = myneo4jaccess.get_connections_list(id_input)
                 
                 if not connected_ids:
                     print("No connections found for this attendee.")
                 else:
-                    # 3. For every ID Neo4j found, ask MySQL for the Name
+
                     for c_id in connected_ids:
                         c_name = mysqldbaccess.get_name_by_id(c_id)
                         print(f"{c_id} | {c_name}")
@@ -114,7 +114,7 @@ def main ():
             if not name1 or not name2:
                 print("Error: One or both attendees do not exist in the MySQL database.")
             else:
-                # 4. Attempt to create connection (Neo4j will check for existing links)
+
                 success = myneo4jaccess.create_connections(id1, id2)
                 
                 if success:
