@@ -20,7 +20,7 @@ The system integrates:
 
 ### MySQL Service
 1. **Database:** Create a schema named `appdbproj`.
-2. **Setup:** Run the provided Cypher in applied_db_final_project\setup_neo4j.cypher script to initialize tables and populate data.
+2. **Data Import:** Import the provided `appdbproj.sql` file into your MySQL instance to set up all tables and initial data.
 3. **Python Config:** Credentials are set to `root` / `root` in `mysqldbaccess.py`.
 
 ### Neo4j Service
