@@ -170,3 +170,24 @@ def get_name_by_id(att_id):
     result = cursor.fetchone()
     db.close()
     return result['attendeeName'] if result else None
+
+def get_all_rooms():
+    db = pymysql.connect(
+        host='localhost',
+        user='root',
+        password='root',
+        db='appdbproj',
+        cursorclass=pymysql.cursors.DictCursor
+    )
+    cursor = db.cursor()
+    sql = """
+    SELECT 
+        roomID, 
+        roomName, 
+        capacity 
+    FROM room
+    """
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    db.close()
+    return result

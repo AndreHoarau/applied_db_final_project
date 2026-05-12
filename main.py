@@ -2,9 +2,11 @@
 import mysqldbaccess
 import myneo4jaccess
 def main ():
+    rooms_cache = None
     display_menu()
     while True:
         choice = input("Enter choice: ")
+        display_menu()
         if (choice == "1"):
             name = input("Enter speaker name : ")
             print(f"session details for : {name}")
@@ -122,6 +124,24 @@ def main ():
 
             print("--------------------------------")
             display_menu()
+
+        elif(choice=="6"):
+            if rooms_cache is None:
+                rooms_cache = mysqldbaccess.get_all_rooms()
+
+
+            print(f"{'ID':<5} | {'Room Name':<20} | {'Capacity':<10}")
+            print("-" * 40)
+
+
+            if rooms_cache:
+                for room in rooms_cache:
+                    rid = room['roomID']
+                    rname = room['roomName']
+                    rcap = room['capacity']
+                    print(f"{rid:<5} | {rname:<20} | {rcap:<10}")
+            else:
+                print("No room records found.")
 
         elif (choice == "x"):
             break
