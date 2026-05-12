@@ -16,10 +16,28 @@ def get_connection(tx,id):
         connections.append(result["ConnectedID"])
     return connections
 
-def get_connections_list(id):
+def add_connection_tx(tx, id1, id2):
+    val1 = int(id1)
+    val2 = int(id2)
+    check_query = """
+    MATCH (a:Attendee {AttendeeID: $id1})-[r:CONNECTED_TO]-(b:Attendee {AttendeeID: $id2})
+    RETURN r
+    """
+    result = tx.run(check_query, id1=val1, id2=val2)
+    if result.peek():
+        return False
+    create_query = """
+    MERGE (a:Attendee {AttendeeID: $id1})
+    MERGE (b:Attendee {AttendeeID: $id2})
+    WITH a, b
+    WHERE NOT (a)-[:CONNECTED_TO]-(b)
+    CREATE (a)-[:CONNECTED_TO]->(b)
+    """
+    tx.run(create_query, id1=val1, id2=val2)
+    return True
+        
+def create_connections(id1,id2):
     connect()
     with driver.session() as session:
-        return session.execute_read(get_connection, id)
-        
-
+        return session.execute_write(add_connection_tx, id1, id2)
     

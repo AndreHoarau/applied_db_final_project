@@ -62,6 +62,7 @@ def main ():
 
                 else:
                     print("Invalid company ID. Please enter a positive integer.")
+        
         elif (choice =="3"):
                 id = input("Attendee ID: ")
                 name = input("Name: ")
@@ -71,6 +72,7 @@ def main ():
                 mysqldbaccess.add_attendee(id,name,dob,gender,id_att_comp)
                 print("--------------------------------")
                 display_menu()
+        
         elif (choice =="4"):
                 id_input = int(input("Attendee ID: "))
                 target_name = mysqldbaccess.get_name_by_id(id_input)
@@ -94,6 +96,32 @@ def main ():
             
                 print("--------------------------------")
                 display_menu()
+        
+        elif(choice=="5"):
+            id1 = input("Attendee ID 1: ")
+            id2 = input("Attendee ID 2: ")
+            if not (id1.isdigit() and id2.isdigit()):
+                print("Error: Attendee IDs must be numeric.")
+                continue
+            if id1 == id2:
+                print("Error: An attendee cannot be CONNECTED_TO him/herself.")
+                continue
+            name1 = mysqldbaccess.get_name_by_id(id1)
+            name2 = mysqldbaccess.get_name_by_id(id2)
+
+            if not name1 or not name2:
+                print("Error: One or both attendees do not exist in the MySQL database.")
+            else:
+                # 4. Attempt to create connection (Neo4j will check for existing links)
+                success = myneo4jaccess.create_connections(id1, id2)
+                
+                if success:
+                    print(f"Successfully connected {name1} and {name2}.")
+                else:
+                    print(f"Error: {name1} and {name2} are already connected.")
+
+            print("--------------------------------")
+            display_menu()
 
         elif (choice == "x"):
             break
